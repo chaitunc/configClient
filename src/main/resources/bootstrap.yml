@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: configClient
+  cloud:
+    config:
+      uri: https://bloodcurdling-web-94762.herokuapp.com
+      fail-fast: true
+      password: test
+      username: user
