@@ -14,8 +14,10 @@ public class ClientConfig {
 	private String infoProperty;
 
 	@RequestMapping("/")
-	public String home() {
-		return "Hello " + infoProperty;
+	public PropertyModel home() {
+		PropertyModel i = new PropertyModel();
+		i.setInfoProp("Hello " + infoProperty);
+		return i;
 	}
 
 	public static void main(String[] args) {
