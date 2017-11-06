@@ -5,5 +5,5 @@ spring:
     config:
       uri: https://bloodcurdling-web-94762.herokuapp.com
       fail-fast: true
-      password: test
+      password: ${config_server_secret}
       username: user
