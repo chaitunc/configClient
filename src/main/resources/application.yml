@@ -1,7 +1,28 @@
 logging:
   level:
-    root: INFO
+    root: DEBUG
 
 management:
     security:
         enabled : false
+google:
+   api_key: AIzaSyB1qJ27jg8WVlNvMJlnrnMZandHi8fHArI
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: 55635804291-3jra80gdoe38doclrihauin01c74h1pu.apps.googleusercontent.com
+      clientSecret: Ahu22O58fOQrGKGPzq9SDDTY
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
+        - https://www.googleapis.com/auth/drive
+    resource:
+        userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+        preferTokenInfo: false
