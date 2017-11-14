@@ -8,6 +8,10 @@ management:
 google:
    api_key: AIzaSyB1qJ27jg8WVlNvMJlnrnMZandHi8fHArI
 
+server:
+    contextPath: /auth
+    port: 8090
+    
 security:
   basic:
     enabled: false
