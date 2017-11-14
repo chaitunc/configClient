@@ -10,7 +10,7 @@ google:
 
 server:
     contextPath: /auth
-    port: 8090
+
     
 security:
   basic:
