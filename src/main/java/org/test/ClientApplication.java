@@ -32,8 +32,8 @@ public class ClientApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().antMatcher("/**").authorizeRequests().antMatchers("/", "/login", "/auth/login")
-				.permitAll().anyRequest().authenticated().and().cors();
+		http.csrf().disable().antMatcher("/**").authorizeRequests().antMatchers("/", "/login").permitAll().anyRequest()
+				.authenticated().and().cors();
 	}
 
 	@Bean

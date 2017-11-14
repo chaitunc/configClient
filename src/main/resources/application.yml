@@ -8,10 +8,6 @@ management:
 google:
    api_key: AIzaSyB1qJ27jg8WVlNvMJlnrnMZandHi8fHArI
 
-server:
-    contextPath: /auth
-
-    
 security:
   basic:
     enabled: false
