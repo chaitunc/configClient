@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -23,7 +25,8 @@ public class TestController {
 	OAuth2RestOperations template;
 
 	@RequestMapping("/")
-	public Map<String, Object> isAuthenticated(Principal principal) {
+	public Map<String, Object> isAuthenticated(Principal principal, HttpServletResponse response) {
+		response.setHeader("CUSTOM_HEADER", "TRUE");
 		Map<String, Object> user = new HashMap<String, Object>();
 		if (principal != null) {
 			user.put("userName", principal.getName());
