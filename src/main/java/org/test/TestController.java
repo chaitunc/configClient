@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RefreshScope
@@ -25,8 +26,10 @@ public class TestController {
 	OAuth2RestOperations template;
 
 	@RequestMapping("/")
-	public void isAuthenticated(HttpServletResponse response) {
-		response.setHeader("Location", "https://vast-dawn-43181.herokuapp.com/");
+	public ModelAndView isAuthenticated(HttpServletResponse response) {
+		String projectUrl = "https://vast-dawn-43181.herokuapp.com/";
+
+		return new ModelAndView("redirect:" + projectUrl);
 	}
 
 	@RequestMapping("/user")
