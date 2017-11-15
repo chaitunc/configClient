@@ -12,7 +12,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,14 +25,8 @@ public class TestController {
 	OAuth2RestOperations template;
 
 	@RequestMapping("/")
-	@ResponseBody
-	public Map<String, Object> isAuthenticated(Principal principal, HttpServletResponse response) {
-		response.setHeader("CUSTOM_HEADER", "TRUE");
-		Map<String, Object> user = new HashMap<String, Object>();
-		if (principal != null) {
-			user.put("userName", principal.getName());
-		}
-		return user;
+	public void isAuthenticated(HttpServletResponse response) {
+		response.setHeader("Location", "https://vast-dawn-43181.herokuapp.com/");
 	}
 
 	@RequestMapping("/user")
