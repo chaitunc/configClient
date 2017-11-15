@@ -26,9 +26,8 @@ public class TestController {
 	OAuth2RestOperations template;
 
 	@RequestMapping("/")
-	public ModelAndView isAuthenticated(HttpServletResponse response) {
-		String projectUrl = "https://vast-dawn-43181.herokuapp.com/";
-
+	public ModelAndView redirectToHomepage(HttpServletResponse response) {
+		String projectUrl = "https://vast-dawn-43181.herokuapp.com/home";
 		return new ModelAndView("redirect:" + projectUrl);
 	}
 
