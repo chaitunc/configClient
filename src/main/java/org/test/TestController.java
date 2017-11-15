@@ -22,6 +22,15 @@ public class TestController {
 	@Autowired
 	OAuth2RestOperations template;
 
+	@RequestMapping("/")
+	public Map<String, Object> isAuthenticated(Principal principal) {
+		Map<String, Object> user = new HashMap<String, Object>();
+		if (principal != null) {
+			user.put("userName", principal.getName());
+		}
+		return user;
+	}
+
 	@RequestMapping("/user")
 	public Map<String, Object> actuatorUser(Principal principal) {
 		OAuth2Authentication auth = (OAuth2Authentication) principal;
