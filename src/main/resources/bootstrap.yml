@@ -1,6 +1,6 @@
 spring:
   application:
-    name: configClient
+    name: pdb-auth
   cloud:
     config:
       uri: https://bloodcurdling-web-94762.herokuapp.com
