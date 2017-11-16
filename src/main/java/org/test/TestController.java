@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -18,9 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RefreshScope
 public class TestController {
-
-	@Value("${info.foo2}")
-	private String infoProperty;
 
 	@Autowired
 	OAuth2RestOperations template;
