@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -21,10 +22,12 @@ public class TestController {
 	@Autowired
 	OAuth2RestOperations template;
 
+	@Value("${pdb.app.homeUrl}")
+	String pdbAppHomeUrl;
+
 	@RequestMapping("/")
 	public ModelAndView redirectToHomepage(HttpServletResponse response) {
-		String projectUrl = "https://vast-dawn-43181.herokuapp.com/home";
-		return new ModelAndView("redirect:" + projectUrl);
+		return new ModelAndView("redirect:" + pdbAppHomeUrl);
 	}
 
 	@RequestMapping("/user")
