@@ -3,7 +3,7 @@ spring:
     name: pdb-auth
   cloud:
     config:
-      uri: https://bloodcurdling-web-94762.herokuapp.com
+      uri: https://pdb-configserver.herokuapp.com/
       fail-fast: true
       password: ${config_server_secret}
       username: user
