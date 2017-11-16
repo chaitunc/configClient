@@ -30,7 +30,7 @@ public class TestController {
 		return new ModelAndView("redirect:" + pdbAppHomeUrl);
 	}
 
-	@RequestMapping("/user")
+	@RequestMapping("/me")
 	public Map<String, Object> actuatorUser(Principal principal) {
 		OAuth2Authentication auth = (OAuth2Authentication) principal;
 		Map<String, Object> user = new HashMap<String, Object>();
