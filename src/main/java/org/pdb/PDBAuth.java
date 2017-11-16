@@ -1,4 +1,4 @@
-package org.test;
+package org.pdb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,16 +14,14 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 @ComponentScan
 @EnableOAuth2Sso
-public class ClientApplication extends WebSecurityConfigurerAdapter {
+public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ClientApplication.class, args);
+		SpringApplication.run(PDBAuth.class, args);
 
 	}
 
@@ -57,18 +55,6 @@ public class ClientApplication extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", config);
 
 		return new CorsFilter(source);
-	}
-
-	@Bean
-	public WebMvcConfigurerAdapter forwardToIndex() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addViewControllers(ViewControllerRegistry registry) {
-				// forward requests to /admin and /user to their index.html
-				registry.addViewController("/").setViewName("forward:/index.html");
-
-			}
-		};
 	}
 
 }

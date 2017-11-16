@@ -1,4 +1,4 @@
-package org.test;
+package org.pdb;
 
 public class PropertyModel {
 	private String infoProp;
