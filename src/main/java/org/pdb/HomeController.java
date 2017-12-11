@@ -23,7 +23,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public ModelAndView home() {
 
-		return new ModelAndView("redirect:http://" + serviceUrl() + "/pdb-gateway/home");
+		return new ModelAndView("redirect:http://" + serviceUrl() + "/home");
 
 	}
 
