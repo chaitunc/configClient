@@ -261,6 +261,11 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 	@EnableResourceServer
 	static class PDBResourceServer extends ResourceServerConfigurerAdapter {
+
+		@Autowired
+		@Qualifier("authenticationManagerBean")
+		private AuthenticationManager authenticationManager;
+
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.antMatcher("/me").authorizeRequests().anyRequest().authenticated();
@@ -268,7 +273,7 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(ResourceServerSecurityConfigurer config) {
-			config.tokenServices(tokenServices()).tokenStore(tokenStore());
+			config.authenticationManager(authenticationManager).tokenServices(tokenServices()).tokenStore(tokenStore());
 		}
 
 		@Bean
