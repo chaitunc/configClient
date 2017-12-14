@@ -211,6 +211,7 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 			DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
 			defaultTokenServices.setTokenStore(tokenStore());
 			defaultTokenServices.setSupportRefreshToken(true);
+			defaultTokenServices.setTokenEnhancer(accessTokenConverter());
 			return defaultTokenServices;
 		}
 
