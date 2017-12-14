@@ -20,6 +20,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,6 +48,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -192,8 +195,24 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 		private AuthenticationManager authenticationManager;
 
 		@Bean
-		public TokenStore jwtTokenStore() {
-			return new JwtTokenStore(new JwtAccessTokenConverter());
+		public TokenStore tokenStore() {
+			return new JwtTokenStore(accessTokenConverter());
+		}
+
+		@Bean
+		public JwtAccessTokenConverter accessTokenConverter() {
+			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+			converter.setSigningKey("123");
+			return converter;
+		}
+
+		@Bean
+		@Primary
+		public DefaultTokenServices tokenServices() {
+			DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+			defaultTokenServices.setTokenStore(tokenStore());
+			defaultTokenServices.setSupportRefreshToken(true);
+			return defaultTokenServices;
 		}
 
 		@Autowired
@@ -233,7 +252,7 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.authenticationManager(authenticationManager).tokenStore(jwtTokenStore());
+			endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore());
 		}
 
 	}
@@ -243,6 +262,31 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.antMatcher("/me").authorizeRequests().anyRequest().authenticated();
+		}
+
+		@Override
+		public void configure(ResourceServerSecurityConfigurer config) {
+			config.tokenServices(tokenServices());
+		}
+
+		@Bean
+		public TokenStore tokenStore() {
+			return new JwtTokenStore(accessTokenConverter());
+		}
+
+		@Bean
+		public JwtAccessTokenConverter accessTokenConverter() {
+			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+			converter.setSigningKey("123");
+			return converter;
+		}
+
+		@Bean
+		@Primary
+		public DefaultTokenServices tokenServices() {
+			DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+			defaultTokenServices.setTokenStore(tokenStore());
+			return defaultTokenServices;
 		}
 	}
 
