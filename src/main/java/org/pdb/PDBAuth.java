@@ -48,6 +48,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -252,7 +253,8 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore());
+			endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore())
+					.tokenServices(tokenServices());
 		}
 
 	}
@@ -264,6 +266,30 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 			http.antMatcher("/me").authorizeRequests().anyRequest().authenticated();
 		}
 
+		@Override
+		public void configure(ResourceServerSecurityConfigurer config) {
+			config.tokenServices(tokenServices());
+		}
+
+		@Bean
+		public TokenStore tokenStore() {
+			return new JwtTokenStore(accessTokenConverter());
+		}
+
+		@Bean
+		public JwtAccessTokenConverter accessTokenConverter() {
+			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+			converter.setVerifierKey("123");
+			return converter;
+		}
+
+		@Bean
+		@Primary
+		public DefaultTokenServices tokenServices() {
+			DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+			defaultTokenServices.setTokenStore(tokenStore());
+			return defaultTokenServices;
+		}
 	}
 
 	@Bean
