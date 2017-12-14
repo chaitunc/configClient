@@ -49,6 +49,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.context.request.RequestContextListener;
@@ -189,8 +191,10 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 		@Qualifier("authenticationManagerBean")
 		private AuthenticationManager authenticationManager;
 
-		@Autowired
-		TokenStore tokenStore;
+		@Bean
+		public TokenStore jwtTokenStore() {
+			return new JwtTokenStore(new JwtAccessTokenConverter());
+		}
 
 		@Autowired
 		Environment env;
@@ -229,7 +233,7 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore);
+			endpoints.authenticationManager(authenticationManager).tokenStore(jwtTokenStore());
 		}
 
 	}
