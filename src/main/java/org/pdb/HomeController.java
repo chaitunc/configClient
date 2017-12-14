@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +41,13 @@ public class HomeController {
 		OAuth2Authentication auth = (OAuth2Authentication) principal;
 		Map<String, Object> user = new HashMap<String, Object>();
 		if (principal != null) {
-			Serializable resourceId = auth.getOAuth2Request().getExtensions().get("resourceId");
+			OAuth2Request oAuth2Request = auth.getOAuth2Request();
+
+			Serializable resourceId = oAuth2Request.getResourceIds().stream().filter((String t) -> {
+				if (t.equals("resourceId"))
+					return true;
+				return false;
+			}).findFirst().get();
 			user.put("userName", principal.getName());
 			user.put("AUTHENTICATED_BY", resourceId);
 		}
