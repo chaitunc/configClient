@@ -281,7 +281,13 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 		@Bean
 		public JwtAccessTokenConverter accessTokenConverter() {
 			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-			converter.setVerifierKey("123");
+			converter.setSigningKey("123");
+			try {
+				converter.afterPropertiesSet();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return converter;
 		}
 
