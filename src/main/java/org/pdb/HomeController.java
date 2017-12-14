@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,10 @@ public class HomeController {
 
 	@RequestMapping({ "/user", "/me" })
 	public Map<String, Object> user(Principal principal) {
-		OAuth2Authentication auth = (OAuth2Authentication) principal;
 		Map<String, Object> user = new HashMap<String, Object>();
 		if (principal != null) {
-			OAuth2Authentication userAuthentication = (OAuth2Authentication) auth.getUserAuthentication();
+			OAuth2Authentication userAuthentication = (OAuth2Authentication) SecurityContextHolder.getContext()
+					.getAuthentication();
 			Serializable resourceId = userAuthentication.getOAuth2Request().getExtensions().get("resourceId");
 			user.put("userName", principal.getName());
 			user.put("AUTHENTICATED_BY", resourceId);
