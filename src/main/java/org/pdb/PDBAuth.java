@@ -49,6 +49,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -262,9 +263,12 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 	@EnableResourceServer
 	static class PDBResourceServer extends ResourceServerConfigurerAdapter {
 
-		@Autowired
-		@Qualifier("authenticationManagerBean")
-		private AuthenticationManager authenticationManager;
+		@Bean
+		public AuthenticationManager authenticationManager() {
+			final OAuth2AuthenticationManager oAuth2AuthenticationManager = new OAuth2AuthenticationManager();
+			oAuth2AuthenticationManager.setTokenServices(tokenServices());
+			return oAuth2AuthenticationManager;
+		}
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
@@ -273,7 +277,8 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(ResourceServerSecurityConfigurer config) {
-			config.authenticationManager(authenticationManager).tokenServices(tokenServices()).tokenStore(tokenStore());
+			config.authenticationManager(authenticationManager()).tokenServices(tokenServices())
+					.tokenStore(tokenStore());
 		}
 
 		@Bean
