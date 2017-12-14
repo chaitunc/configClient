@@ -268,7 +268,7 @@ public class PDBAuth extends WebSecurityConfigurerAdapter {
 
 		@Override
 		public void configure(ResourceServerSecurityConfigurer config) {
-			config.tokenServices(tokenServices());
+			config.tokenServices(tokenServices()).tokenStore(tokenStore());
 		}
 
 		@Bean
